@@ -1,0 +1,46 @@
+<!doctype html>
+<html lang="en">
+<head>
+
+	<script src='/lib/ajax/libs/2.0.3/jquery.js'></script>
+	<script src='/lib/socket.io/socket.io.js'></script>
+	<script src='/lib/SpriteClip/spriteclip.min.js'></script>
+	<script src='/lib/d3js/d3.v3.min.js'></script>
+	<script src='/lib/FileSaver/FileSaver.min.js'></script>
+	
+	<script src='/javascripts/dataSocket.js'></script>
+
+	
+	
+<link rel="stylesheet" href="../stylesheets/style.css">
+  <meta charset="utf-8">
+  <title><%= title %></title>
+</head>
+
+<body>
+<div class="bodyDiv">
+	<% console.log("Start indeX"); %> 
+<div id=guageDiv>
+ 	<% include guages %>
+</div>
+
+	<% include windsock %>
+
+	<% include pitchAngle %>
+		
+	<% include dummyLoad %>
+
+
+<div id="rightFrame" >
+	
+	<%- include(dataFrameContent) -%>
+	
+</div>
+	<% console.log("in index: dataFrameContent ", dataFrameContent) ; %> 
+		<%include infoFrame %>
+
+	
+</div>
+
+</body>
+</html>

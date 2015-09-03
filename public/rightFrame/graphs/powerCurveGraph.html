@@ -1,0 +1,262 @@
+	
+			
+ 	<div id="powerCurveContainer" >
+	</div>
+	
+	
+<script type="text/javascript" src="/javascripts/JSON2CSV.js"></script>
+<script type="text/javascript" src="/javascripts/JSON2TSV.js"></script>
+	<script type="text/javascript" src="/lib/canvasJS/canvasjs.min.js"></script>
+		
+	
+  	<div class="PCsaveDataButtonDiv">
+		<button class="PCsaveDataButton" id="PCsaveDataButton" name="PCsaveDataButton" onclick="PCsaveDataFunction()">Save</button>
+	</div>
+	<div class="PCrecordButtonsDiv" name="PCrecordButtonsDiv" id="PCrecordButtonsDiv" >
+	</div>
+	
+ 	<div class="PCrecordDataButtonDiv">
+		<button class="PCrecordDataButton" id="PCrecordDataButton" name="PCrecordDataButton" onclick="PCrecordDataFunction()">Record</button>
+	</div>
+	
+	<script>
+
+// window.onload = function () {
+			var data = []; 
+			var meanDataLine = [];
+			var dataSeries = { type: "scatter" };
+			 var meanDataSeries = {type: "line" };
+			var dataPoints = [];
+			var meanDataPoints = [];
+
+			 meanData = []; 
+			 /*
+			 meanData.push({
+				x: 0,
+				y: 0
+			});
+			*/
+			dataPoints.push({
+				x: 0,
+				y: 0
+			});
+				meanDataSeries.dataPoints = meanData;
+				meanDataLine.push(meanDataSeries);
+				
+				 dataSeries.dataPoints = dataPoints;
+				data.push(dataSeries);
+				if (data.length > limit)
+				{
+					data.shift();				
+				}
+				if (dataSeries.length > limit)
+				{
+				dataSeries.shift();
+				}
+				console.log("data initalized");
+				
+				
+
+		var chart = new CanvasJS.Chart("powerCurveContainer",
+		{
+			zoomEnabled: true,
+			backgroundColor: null,
+			title:{
+				text: "Power Curve"
+				},
+				animationEnabled: true,
+				axisY:{
+					labelAngel: 30,
+					minimum: 0,
+					maximum: 3000,
+					interval: 1000
+				},
+				axisX:{
+					includeZero: false,
+					minimum: 0,
+					maximum: 8000,
+					interval: 1000
+				},
+				
+				// data: [meanDataLine, data]
+				   data: [ meanDataSeries, dataSeries ]
+			});
+			
+		 chart.render();
+	//	}
+		
+			
+		var limit = 1; //increase number of data Points by increasing this
+		
+
+		console.log("POWER CURVE GRAPH");
+		
+			var dataItem;
+					// set of data for each meanData point calculation
+			 inData = []; 
+		var inData_limit = 10;
+			 outData = []; 
+			 
+		setTimeout(function() { console.log("wait"); }, 3000 );
+		//  powerCurveGraphSocket = io.connect('http://127.0.0.1:1337');
+
+			powerCurveGraphSocket.on('connect', function (dataIn) {
+					console.log('powerCurve client connected ');
+
+				
+			jQuery(function ($) {
+				powerCurveGraphSocket.on('updateData', function (dataIn) {
+				
+					// save the new JSON data to a buffer
+					// this buffer is used for figuring which meanData to show
+					inData.push(dataIn);
+					if ( inData.length > inData_limit ) {
+						inData.shift();
+					}
+					console.log("inData size: "+inData.length);
+
+				//	console.log("inData: "+inData);
+					
+					
+				 // context.clearRect(0, 0, chart.width, chart.height);
+				chart.width = chart.width;
+
+				 console.log('powerCurve update: ' + dataIn);
+					dataItem = JSON.parse(dataIn);
+					
+						dataPoints.push({
+							x: dataItem.rpm,
+							y: dataItem.power,
+
+						});
+					if (dataPoints.length > limit)
+					{
+						dataPoints.shift();				
+					}
+			//	console.log("dataSeries pushed "+dataPoints.length);	
+			//	var jsonObj = JSON.stringify(dataPoints);
+			//	console.log("dataSeries pushed obj: "+jsonObj);
+				
+				 dataSeries.dataPoints = dataPoints;
+				
+				
+				data.push(dataSeries);
+				if (data.length > limit)
+				{
+					data.shift();				
+				}
+								//	console.log("data pushed "+data.length);		
+								//										console.log("data pushed "+data);		
+
+
+
+			// context.clearRect(0, 0, chart.width, chart.height);
+							chart.render();
+});
+				});
+		});
+			var plotData = []; 
+				function PCrecordDataFunction() {
+					console.log('record button in Power Curve: ');
+					console.log("in RECORD inData size: "+inData.length);
+					meanDataData(inData);
+					console.log("in Record: meanDataPoint: "+meanData);
+						plotData.push(meanData);
+							//				console.log("in RECORD plotData: "+plotData);
+						
+					outData.push(inData);
+																//	console.log("in RECORD outData : "+outData);
+
+					inData = [];
+							//	console.log("in RECORD inData size: "+outData.length);
+							//	console.log("in RECORD inData size: "+outData);
+
+							chart.render();
+
+
+				}
+				
+				function PCsaveDataFunction() {
+				// console.log('Save button in Power Curve: ');
+				//	console.log("in SAVE inData size: "+outData.length);
+				//	console.log("in SAVE outData : "+JSON.stringify(outData));															
+
+			// var json = JSON.stringify(data);
+			var json = outData;
+		//	var blob = new Blob([json], {type: "application/json"});
+			
+			var tsv = JSON2TSV("["+json+"]");
+			var blob = new Blob([tsv], {type: "application/csv"});
+	
+			var url = URL.createObjectURL(blob);
+			
+			var a = document.createElement('a');
+			a.id = "saveDataLinkPlace";
+			var date = new Date();
+			var fileName = "PowerCurve_data."+date.getDate()+"-"+(date.getMonth()+1)+"-"+date.getFullYear()+" "+date.getHours()+"."+date.getMinutes()+".tsv";
+			a.download = fileName;
+			a.href = url;
+			a.textContent = "Download data as JSON";
+			
+			saveAs(blob,fileName);
+	
+			outData = [];
+		}
+		
+		
+
+		function meanDataData(dataTomeanData) {
+				var sum = [];
+			   var sumPower = 0;
+			   var sumRPM = 0;
+
+				for(var i = 0; i < dataTomeanData.length; i++) {
+					// console.log("meanData: data to meanData: "+dataTomeanData[i]);
+					
+					thisDataItem = JSON.parse(dataTomeanData[i]);
+							sumPower += dataItem.power;
+							sumRPM += dataItem.rpm;
+
+				};
+				
+				var y = (sumPower / inData.length);
+				var x = (sumRPM / inData.length);
+
+	/*		meanDataLine.push( {
+				x :  x,
+				y : y
+			});
+			*/
+			meanData.push( {
+				x: x,
+				y: y
+			});
+											// console.log("meanData: meanData data length: "+meanData.length);
+											//console.log("meanData power: "+x);
+											 // console.log("meanData rpm: "+y);
+											// console.log("meanData: meanData data : "+JSON.stringify(meanData));
+
+
+		//	if ( meanData.length > 1 ) {
+		//		meanData.shift();
+		//	}
+			meanDataSeries.dataPoints = meanData;
+			console.log("meanData: "+JSON.stringify(meanData));
+			meanDataLine.push(meanDataSeries);
+			
+			console.log("meanDataSeries Line "+JSON.stringify(meanDataLine));
+			console.log("data current point "+JSON.stringify(data));
+
+				
+
+			}
+
+
+		
+		</script>
+
+	
+		
+		
+		
+				

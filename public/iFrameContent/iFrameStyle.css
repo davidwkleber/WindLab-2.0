@@ -1,0 +1,114 @@
+body {
+	font-family: Trebuchet, Arial, sans-serif;
+	clear left;
+}
+p {
+	text-align: justify;
+}
+#cutInH{
+	position: relative;
+	top: 45px;
+	text-align: center;
+	background-color: red;
+}
+#counterMomentH{
+	position: relative;
+	text-align: center;
+	top: 45px;
+	background-color: red;
+}
+.oneDiv{
+	position: absolute;
+	top: 55px;
+	left: 15%;
+	width: 70%;
+}
+.left2colDiv{
+	position: absolute;
+	top: 55px;
+	left: 250px;
+	width: 650px;
+	display: block;
+}
+.right2colDiv{
+	position: absolute;
+	top: 55px;
+	right: 250px;
+	width: 650px;
+}
+.left3colDiv{
+	position: absolute;
+	top: 55px;
+	left: 200px;
+	width: 500px;
+	display: block;
+}
+.middle3colDiv{
+	position: absolute;
+	top: 55px;
+	left: 750px;
+	width: 500px;
+}
+.right3colDiv{
+	position: absolute;
+	top: 55px;
+	left: 1250px;
+	width: 500px;
+}
+
+.backDiv{
+	position: absolute;
+	top: 55px;
+	left: 244px;
+	width: 500px;
+	height: 120px;
+	background-color: gray;
+}
+
+}
+.expAdiv{
+	position: absolute;
+	top: 60px;
+	left: 350px;
+	width: 250px;
+	height: 80px;
+	vertical-align: middle;
+	background-color: #1f8fe0;
+}
+.expBdiv{
+	position: absolute;
+	top: 60px;
+	left: 650px;
+	width: 250px;
+	height: 80px;
+	vertical-align: middle;
+	background-color: #1f8fe0;
+}
+.navImg {
+	width: 16.6667%;
+	float: left;
+}
+nav {
+	font-size: 0;
+	position: absolute;
+	top: 0px;
+	left: 0px;
+	right: 0px
+}
+
+#previous{
+	position: absolute;
+	top: 70px;
+	left: 20px;
+	/*height: 160px*/
+}
+#next{
+	position: absolute;
+	top: 70px;
+	right: 20px;
+}
+#cutInHeading {
+	position: absolute;
+	top: 20px;
+	left: 700px;
+}

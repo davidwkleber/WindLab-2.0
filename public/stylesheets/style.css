@@ -1,0 +1,639 @@
+body {
+	background-image: url('../images/Background_big.png');
+	background-repeat: no-repeat;
+	background-size: 100%, 100%;
+  font: 14px "Lucida Grande", Helvetica, Arial, sans-serif;
+ overflow: hidden;
+}
+.bodyDiv {
+	position: absolute;
+	left: 0px;
+	top: 0px;
+	width: 1920px;
+	height: 1080px;
+	 overflow: hidden;
+
+}
+
+a {
+  color: #00B7FF;
+}
+
+
+/* 
+	Settings for Gauges
+		views/gauges.ejs
+*/
+ 	#guageDiv {
+		position: absolute;
+		left: 40px; top: 260px;
+		width: 800px;
+	}
+
+ /* settings for infoFrame */
+	#topFrame {
+		position: absolute;
+		top: 0px;
+		left: 0px;
+		width: 100%;
+		height: 250px;
+		 border-right:none;
+	}
+
+/*
+	Settings for Wind Speed
+		views/windsock.ejs
+*/
+
+        .awesome-button {
+            display: block;
+            width: 171px;
+            height: 486px;
+            background: url("../images/20150208_171x486_160frames_windsack_small.png") no-repeat 0 0;
+            margin-bottom: 1em;
+			position:absolute;
+			left:20px; top:420px;
+        }
+        .WScurrentValue {
+			position: absolute;
+			left: 50px;
+			top:680px;
+			font-size:x-large;
+		}   
+		.WSbuttonDiv{
+			position:absolute;
+			left:200px; top:880px;
+			width: 60px;
+		}
+		#WSupButton{
+			width:60px; height: 40px;
+		}
+		#WSdownButton{
+			width:60px; height: 40px;
+		}		
+
+/* Wind Fan On Off Checkbox */
+.WSinitButton {
+    position: absolute; 
+	 left:15px; top:910px;
+	width: 158px;
+    -webkit-user-select:none; -moz-user-select:none; -ms-user-select: none;
+}
+.WSinitButton-checkbox {
+    display: none;
+}
+.WSinitButton-label {
+    display: block; overflow: hidden; cursor: pointer;
+    border: 2px solid #999999; border-radius: 17px;
+}
+.WSinitButton-inner {
+    display: block; width: 200%; margin-left: -100%;
+    -moz-transition: margin 0.3s ease-in 0s; -webkit-transition: margin 0.3s ease-in 0s;
+    -o-transition: margin 0.3s ease-in 0s; transition: margin 0.3s ease-in 0s;
+}
+.WSinitButton-inner:before, .WSinitButton-inner:after {
+    display: block; float: left; width: 50%; height: 26px; padding: 0; line-height: 26px;
+    font-size: 18px; color: white; font-family: Trebuchet, Arial, sans-serif; font-weight: bold;
+    -moz-box-sizing: border-box; -webkit-box-sizing: border-box; box-sizing: border-box;
+}
+.WSinitButton-inner:before {
+    content: "Wind ON";
+    padding-left: 25px;
+    background-color: #75B1FF; color: #5C5C5B;
+}
+.WSinitButton-inner:after {
+    content: "Wind OFF";
+    padding-right: 25px;
+    background-color: #F0E068; color: #5C5C5B;
+    text-align: right;
+}
+.WSinitButton-switch {
+    display: block; width: 43px; margin: -8.5px;
+    background: #FFFFFF;
+    border: 2px solid #999999; border-radius: 17px;
+    position: absolute; top: 0; bottom: 0; right: 128px;
+    -moz-transition: all 0.3s ease-in 0s; -webkit-transition: all 0.3s ease-in 0s;
+    -o-transition: all 0.3s ease-in 0s; transition: all 0.3s ease-in 0s; 
+}
+.WSinitButton-checkbox:checked + .WSinitButton-label .WSinitButton-inner {
+    margin-left: 0;
+}
+.WSinitButton-checkbox:checked + .WSinitButton-label .WSinitButton-switch {
+    right: 0px; 
+}
+
+/*
+	Settings for Pitch Angle 
+		views/pitchAngle.ejs
+*/
+        .pitchAngle-button {
+            display: block;
+            width: 252px;
+            height: 486px;
+            background: url("../images/20150208_Pitch_final_small_252x486.png") no-repeat 0 0;
+            margin-bottom: 1em;
+           
+			position:absolute;
+			left:330px; top:380px;
+        }
+        .PAcurrentFrame {
+			position:absolute;
+			left:390px; top:105px;
+		}
+		
+		.PAcurrentAngle {
+			position:absolute;
+			left:360px; 
+			top:680px;
+			font-size:x-large;
+		}
+		.PAbuttonDiv{
+			position:absolute;
+			left:490px; top:880px;
+			width: 60px;
+
+		}
+		.PAinitDiv{
+			position:absolute;
+			left:490px; top:930px;
+		}
+		#PAupButton{
+			width:60px; height: 40px;
+		}
+		#PAdownButton{
+			width:60px; height: 40px;
+		}		
+		.pitchAngelDiv {
+			position:absolute;
+			left:330px; top:100px;
+		}
+		
+/* For the Initialization checkbox */
+.PAinitButton {
+   position: absolute; 
+    left:310px; top:910px;
+	width: 158px;
+    -webkit-user-select:none; -moz-user-select:none; -ms-user-select: none;
+}
+.PAinitButton-checkbox {
+    display: none;
+}
+.PAinitButton-label {
+    display: block; overflow: hidden; cursor: pointer;
+    border: 2px solid #999999; border-radius: 17px;
+}
+.PAinitButton-inner {
+    display: block; width: 200%; margin-left: -100%;
+    -moz-transition: margin 0.3s ease-in 0s; -webkit-transition: margin 0.3s ease-in 0s;
+    -o-transition: margin 0.3s ease-in 0s; transition: margin 0.3s ease-in 0s;
+}
+.PAinitButton-inner:before, .PAinitButton-inner:after {
+    display: block; float: left; width: 50%; height: 26px; padding: 0; line-height: 26px;
+    font-size: 18px; color: white; font-family: Trebuchet, Arial, sans-serif; font-weight: bold;
+    -moz-box-sizing: border-box; -webkit-box-sizing: border-box; box-sizing: border-box;
+}
+.PAinitButton-inner:before {
+    content: "Pitch Control";
+    padding-left: 5px;
+    background-color: #75B1FF; color: #5C5C5B;
+}
+.PAinitButton-inner:after {
+    content: "Maintenance";
+    padding-right: 5px;
+    background-color: #F0E068; color: #5C5C5B;
+    text-align: right;
+}
+.PAinitButton-switch {
+    display: block; width: 43px; margin: -8.5px;
+    background: #FFFFFF;
+    border: 2px solid #999999; border-radius: 17px;
+    position: absolute; top: 0; bottom: 0; right: 128px;
+    -moz-transition: all 0.3s ease-in 0s; -webkit-transition: all 0.3s ease-in 0s;
+    -o-transition: all 0.3s ease-in 0s; transition: all 0.3s ease-in 0s; 
+}
+.PAinitButton-checkbox:checked + .PAinitButton-label .PAinitButton-inner {
+    margin-left: 0;
+}
+.PAinitButton-checkbox:checked + .PAinitButton-label .PAinitButton-switch {
+    right: 0px; 
+}
+
+ /*
+	Settings for Dummy Load
+		views/dummyLoad.ejs
+*/
+
+		.DummyLoadDiv {
+			width: 420px;
+			height: 100px;
+		}
+	
+        .DLawesome-button {
+            display: block;
+			
+            width: 221px;
+            height: 134px;
+			
+            background: url("../images/20150208_load_small_221x134_201frames.png") no-repeat 0 0;
+						/* background-size: 100%, 100%;
+						*/
+
+            margin-bottom: 1em;
+			position:absolute;
+			left:580px; top:740px;
+        }
+		.DLcurrentValue {
+			position:absolute;
+			left:680px; 
+			top:680px;
+			font-size:x-large;
+		}
+		.DLbuttonDiv{
+			position:absolute;
+			left:780px; top:880px;
+			width: 60px;
+		}
+		#DLupButton{
+			width:60px; height: 40px;
+		}
+		#DLdownButton{
+			width:60px; height: 40px;
+		}		
+/* For the Dummy Load/Motor Control checkbox */
+.DLinitButton {
+    position: absolute; 
+	left:600px; top:910px;
+
+	width: 158px;
+    -webkit-user-select:none; -moz-user-select:none; -ms-user-select: none;
+}
+.DLinitButton-checkbox {
+    display: none;
+}
+.DLinitButton-label {
+    display: block; overflow: hidden; cursor: pointer;
+    border: 2px solid #999999; border-radius: 17px;
+}
+.DLinitButton-inner {
+    display: block; width: 200%; margin-left: -100%;
+    -moz-transition: margin 0.3s ease-in 0s; -webkit-transition: margin 0.3s ease-in 0s;
+    -o-transition: margin 0.3s ease-in 0s; transition: margin 0.3s ease-in 0s;
+}
+.DLinitButton-inner:before, .DLinitButton-inner:after {
+    display: block; float: left; width: 50%; height: 26px; padding: 0; line-height: 26px;
+    font-size: 18px; color: white; font-family: Trebuchet, Arial, sans-serif; font-weight: bold;
+    -moz-box-sizing: border-box; -webkit-box-sizing: border-box; box-sizing: border-box;
+}
+.DLinitButton-inner:before {
+    content: "Current sink";
+    padding-left: 10px;
+    background-color: #75B1FF; color: #5C5C5B;
+}
+.DLinitButton-inner:after {
+    content: "Motor mode";
+    padding-right: 10px;
+    background-color: #F0E068; color: #5C5C5B;
+    text-align: right;
+}
+.DLinitButton-switch {
+    display: block; width: 43px; margin: -8.5px;
+    background: #FFFFFF;
+    border: 2px solid #999999; border-radius: 17px;
+    position: absolute; top: 0; bottom: 0; right: 128px;
+    -moz-transition: all 0.3s ease-in 0s; -webkit-transition: all 0.3s ease-in 0s;
+    -o-transition: all 0.3s ease-in 0s; transition: all 0.3s ease-in 0s; 
+}
+.DLinitButton-checkbox:checked + .DLinitButton-label .DLinitButton-inner {
+    margin-left: 0;
+}
+.DLinitButton-checkbox:checked + .DLinitButton-label .DLinitButton-switch {
+    right: 0px; 
+}
+
+/*
+	Settings for Data Collection
+		views/dataInput.csf
+*/
+	.DIstartButtonDiv{
+			position: absolute;
+			left: 400px; top: 750px;
+		}
+		.DIstopButtonDiv{
+			position: absolute;
+			left: 500px; top: 750px;
+		}
+		.DIstartButton {
+			width: 80px; height: 50px;
+		}
+		.DIstopButton {
+			width: 80px; height: 50px;
+		}
+
+
+
+/*
+	settings for D3JS line graph, 
+		views/lineGraph.ejs
+*/
+
+/* For Data Selection Buttons */
+
+  input, label {
+    line-height: 1.5em;
+  }
+
+	#graphSelectButtons {
+			position: relative;
+			left:90px; top: 40px;
+		}
+	#graphDataSelection {
+			width: 300px; height: 30px;
+		}
+
+		/* for Line Graph itself */
+svg {
+  font: 10px sans-serif;
+}
+ 
+.line {
+  fill: none;
+  stroke: #000;
+  stroke-width: 1.5px;
+}
+ 
+.axis path,
+.axis line {
+  fill: none;
+  stroke: #000;
+  shape-rendering: crispEdges;
+}
+
+
+	#lineGraphTitle {
+		position: relative;
+		left: 400px;
+		top: 6px;
+		width: 100px;
+	//	font-size: 60px;
+	}
+
+		#lineGraphDiv {
+		position: relative;
+		left: 1px;
+		top: 1px;
+		width: 100%;
+		height: 80%;
+		 border-right:none;
+		 border-top:none;
+		 margin-top:none;
+
+
+		 backgroundColor: null;
+	}
+
+	// }
+		#graphSelectForm {
+		position: relative;
+		left: 0px;
+		top: 0px;
+		width: 100px;
+		height: 90px;
+		 border-right:none;
+		 		  overflow: hidden;
+	}
+	#rightFrame {
+		position: absolute;
+		left: 850px;
+		top: 250px;
+		width: 1000px;
+		height: 750px;
+		 border-right:none;
+		 		  overflow: hidden;
+
+	}
+	#tourFrame {
+		position:relative;
+		left: 0;
+		top: 0;
+		width: 100%;
+		height:100%;
+		  overflow: hidden;
+
+	}
+	#powerCurveContainer {
+		position: relative;
+		left: 1px;
+		top: 1px;
+		width: 100%;
+		height: 92%;
+		 border-right:none;
+		 backgroundColor: null;
+	}
+/*
+	Settings for record functions
+		views/record.ejs
+*/
+  input, label {
+    line-height: 1.5em;
+  }
+	#recordButtonsDiv {
+			position: absolute;
+			width: 250px;
+			height: 50px;
+			left: 900px; top: 700px;
+			   -webkit-user-select:none; -moz-user-select:none; -ms-user-select: none;
+ border-right:none;
+
+		}
+	#recordTime {
+			position: absolute;
+			width: 100px;
+			height: 20px;
+			left: 840px; top: 663px;
+			   -webkit-user-select:none; -moz-user-select:none; -ms-user-select: none;
+ border-right:none;
+
+		}
+	.recordButtons {
+			position: absolute;
+			width: 158px;
+			left: 600px; top: 670px;
+			   -webkit-user-select:none; -moz-user-select:none; -ms-user-select: none;
+ border-right:none;
+
+		}
+
+.recordButtons-checkbox {
+    display: none;
+}
+.recordButtons-label {
+    display: block; overflow: hidden; cursor: pointer;
+    border: 2px solid #999999; border-radius: 17px;
+}
+.recordButtons-inner {
+    display: block; width: 200%; margin-left: -100%;
+    -moz-transition: margin 0.3s ease-in 0s; -webkit-transition: margin 0.3s ease-in 0s;
+    -o-transition: margin 0.3s ease-in 0s; transition: margin 0.3s ease-in 0s;
+}
+.recordButtons-inner:before, .recordButtons-inner:after {
+    display: block; float: left; width: 50%; height: 26px; padding: 0; line-height: 26px;
+    font-size: 18px; color: white; font-family: Trebuchet, Arial, sans-serif; font-weight: bold;
+    -moz-box-sizing: border-box; -webkit-box-sizing: border-box; box-sizing: border-box;
+}
+.recordButtons-inner:after {
+    content: "    Recording";
+    padding-left: 12px;
+	    text-align: center;
+
+    background-color: #FC3737; color: #5C5C5B;
+}
+.recordButtons-inner:before {
+    content: "Record OFF     ";
+    padding-right: 12px;
+    background-color: #B0B0B0; color: #5C5C5B;
+    text-align: center;
+}
+.recordButtons-switch {
+    display: block; width: 43px; margin: -8.5px;
+    background: #FFFFFF;
+    border: 2px solid #999999; border-radius: 17px;
+    position: absolute; top: 0; bottom: 0; right: 128px;
+    -moz-transition: all 0.3s ease-in 0s; -webkit-transition: all 0.3s ease-in 0s;
+    -o-transition: all 0.3s ease-in 0s; transition: all 0.3s ease-in 0s; 
+}
+.recordButtons-checkbox:checked + .recordButtons-label .recordButtons-inner {
+    margin-left: 0;
+}
+.recordButtons-checkbox:checked + .recordButtons-label .recordButtons-switch {
+    right: 0px; 
+}
+
+
+.saveDataButtonDiv{
+			position: absolute;
+			width: 158px;
+			left: 925px; top: 670px;
+			   -webkit-user-select:none; -moz-user-select:none; -ms-user-select: none;
+ border-right:none;
+
+}
+.saveDataButtonDiv :active{
+	background-color: #FC3737;
+	position:relative;
+	top:1px;
+}
+.saveDataButton {
+    position: relative; width: 75px; height: 30px;
+	font-size: 18px; color: #5C5C5B; font-family: Trebuchet, Arial, sans-serif; font-weight: bold;
+	background-color: #75B1FF;
+	border: 2px solid #999999; border-radius: 17px;
+	outline: none;
+	-webkit-user-select:none; -moz-user-select:none; -ms-user-select: none;
+	cursor: pointer;
+}
+
+
+/* For Power Curve Record and buttons */
+
+	.PCrecordButtons {
+			position: absolute;
+			width: 158px;
+			left: 600px; top: 700px;
+			   -webkit-user-select:none; -moz-user-select:none; -ms-user-select: none;
+ border-right:none;
+
+		}
+
+.PCrecordButtons-checkbox {
+    display: none;
+}
+.PCrecordButtons-label {
+    display: block; overflow: hidden; cursor: pointer;
+    border: 2px solid #999999; border-radius: 17px;
+}
+.PCrecordButtons-inner {
+    display: block; width: 200%; margin-left: -100%;
+    -moz-transition: margin 0.3s ease-in 0s; -webkit-transition: margin 0.3s ease-in 0s;
+    -o-transition: margin 0.3s ease-in 0s; transition: margin 0.3s ease-in 0s;
+}
+.PCrecordButtons-inner:before, .PCrecordButtons-inner:after {
+    display: block; float: left; width: 50%; height: 26px; padding: 0; line-height: 26px;
+    font-size: 18px; color: white; font-family: Trebuchet, Arial, sans-serif; font-weight: bold;
+    -moz-box-sizing: border-box; -webkit-box-sizing: border-box; box-sizing: border-box;
+}
+.PCrecordButtons-inner:after {
+    content: "    Recording";
+    padding-left: 12px;
+	    text-align: center;
+
+    background-color: #FC3737; color: #5C5C5B;
+}
+.PCrecordButtons-inner:before {
+    content: "Record OFF     ";
+    padding-right: 12px;
+    background-color: #B0B0B0; color: #5C5C5B;
+    text-align: center;
+}
+.PCrecordButtons-switch {
+    display: block; width: 43px; margin: -8.5px;
+    background: #FFFFFF;
+    border: 2px solid #999999; border-radius: 17px;
+    position: absolute; top: 0; bottom: 0; right: 128px;
+    -moz-transition: all 0.3s ease-in 0s; -webkit-transition: all 0.3s ease-in 0s;
+    -o-transition: all 0.3s ease-in 0s; transition: all 0.3s ease-in 0s; 
+}
+.PCrecordButtons-checkbox:checked + .recordButtons-label .recordButtons-inner {
+    margin-left: 0;
+}
+.PCrecordButtons-checkbox:checked + .recordButtons-label .recordButtons-switch {
+    right: 0px; 
+}
+
+	
+.PCsaveDataButtonDiv{
+			position: absolute;
+			width: 158px;
+			left: 925px; top: 670px;
+			   -webkit-user-select:none; -moz-user-select:none; -ms-user-select: none;
+ border-right:none;
+
+}
+.PCsaveDataButtonDiv :active{
+	background-color: #FC3737;
+	position:relative;
+	top:1px;
+}
+.PCsaveDataButton {
+    position: relative; width: 75px; height: 30px;
+	font-size: 18px; color: #5C5C5B; font-family: Trebuchet, Arial, sans-serif; font-weight: bold;
+	background-color: #75B1FF;
+	border: 2px solid #999999; border-radius: 17px;
+	outline: none;
+	-webkit-user-select:none; -moz-user-select:none; -ms-user-select: none;
+	cursor: pointer;
+}
+
+	
+.PCrecordDataButtonDiv{
+			position: absolute;
+			width: 158px;
+			left: 680px; top: 670px;
+			   -webkit-user-select:none; -moz-user-select:none; -ms-user-select: none;
+ border-right:none;
+
+}
+.PCrecordDataButtonDiv :active{
+	background-color: #FC3737;
+	position:relative;
+	top:1px;
+}
+.PCrecordDataButton {
+    position: relative; width: 75px; height: 30px;
+	font-size: 18px; color: #5C5C5B; font-family: Trebuchet, Arial, sans-serif; font-weight: bold;
+	background-color: #75B1FF;
+	border: 2px solid #999999; border-radius: 17px;
+	outline: none;
+	-webkit-user-select:none; -moz-user-select:none; -ms-user-select: none;
+	cursor: pointer;
+}
+

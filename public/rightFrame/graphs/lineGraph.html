@@ -1,0 +1,156 @@
+<!doctype html>
+
+
+
+	<div id="lineGraphDiv" >
+	<h1 id=lineGraphTitle>power</h1>
+	<script type="text/javascript" src="/javascripts/lineScan.js"></script>
+
+
+	<form>
+			<div id="graphSelectButtons">
+
+			<fieldset id="graphDataSelection">
+				<legend>Select which data to graph</legend>
+							
+
+				<span>
+				<input type="radio" class="dataSelectorRadio" name="measuredData" id="current" value="current">
+				<label for="current">Current</label>
+				</span>
+				<span>
+				<input type="radio"  class="dataSelectorRadio" name="measuredData" id="voltage" value="voltage">
+				<label for="voltage">Voltage</label>
+				</span>
+				<span>
+				<input type="radio"  class="dataSelectorRadio" name="measuredData" id="power" value="power" checked=true>
+				<label for="power">Power</label>
+				</span>
+				<span>
+				<input type="radio"  class="dataSelectorRadio" name="measuredData" id="rpm" value="rpm">
+				<label for="rpm">RPM</label>
+				</span>
+			<div id="selectedData"></div>
+				</div>
+
+	</form>
+	</fieldset>
+	
+<link rel="stylesheet" href="../stylesheets/style.css">
+
+<script type="text/javascript" src="/javascripts/JSON2CSV.js"></script>
+<script type="text/javascript" src="/javascripts/JSON2TSV.js"></script>
+
+
+  	<div class="saveDataButtonDiv">
+		<button class="saveDataButton" id="saveDataButton" name="saveDataButton" onclick="saveDataFunction()">Save</button>
+	</div>
+	<div class="recordButtonsDiv" name="recordButtonsDiv" id="recordButtonsDiv" >
+	</div>
+
+		<div class="recordButtons"  id="recordButtons" name="recordButtons">
+    <input type="checkbox" name="recordButtons-checkbox" class="recordButtons-checkbox" id="myrecordButtons" checked>
+    <label class="recordButtons-label" for="myrecordButtons">
+        <span class="recordButtons-inner"></span>
+        <span class="recordButtons-switch"></span>
+    </label>
+		<script type="text/javascript" src="/javascripts/recordScript.js"></script>
+
+</div>
+
+
+	
+	
+	
+		<script>
+		var dataSelected = 'power';
+		
+		var powerMin = 0; 
+		var powerMax = 3000;
+		var voltageMax = 15000;
+		var currentMax = 1000;
+		var rpmMax = 8000;
+		
+				
+			$( ".dataSelectorRadio" ).on( "click", function() {
+
+	//		$("#selectedData").html($( "input:checked" ).val() + " is checked!" );
+						$("#lineGraphTitle").html($( ".dataSelectorRadio:checked" ).val() );
+
+			 dataSelected = $(".dataSelectorRadio:checked").val();
+			 
+					switch (dataSelected) {
+						case 'power':
+			//				console.log('graph power '+dataSelected);
+							changeAxis( powerMax );
+							break;
+						case 'current':
+			//				console.log('graph current '+dataSelected);
+							changeAxis( currentMax );
+							break;
+						case 'voltage':
+			//				console.log('graph voltage '+dataSelected);
+							changeAxis( voltageMax );
+							break;
+						case 'rpm':
+							// var realRPM = Math.floor(((dataItem.rpm * 3.3)/1024)*1000); //*666.667);
+			//				console.log('graph rpm '+dataSelected);
+							changeAxis( rpmMax );
+							break;
+						default:
+			//				console.log('graph default');
+							changeAxis( powerMax );
+					}
+		//	console.log('dataSelected item is: '+dataSelected);
+		});	
+
+						var dataItem;
+			// lineGraphSocket = io.connect('http://127.0.0.1:1337');
+
+			lineGraphSocket.on('connect', function (data) {
+					console.log('lineGraph client connected ');
+			//		console.log('lineGraph connected data ' + data);
+
+				
+			jQuery(function ($) {
+				lineGraphSocket.on('updateData', function (data) {
+			//		console.log('lineGraph update: ' + data);
+					dataItem = JSON.parse(data);
+			//		console.log('lineGraph updateData power ' + dataItem.power);
+
+					switch (dataSelected) {
+						case 'power':
+			//				console.log('graph power '+dataSelected);
+							tick( dataItem.power, powerMax );
+							break;
+						case 'current':
+			//				console.log('graph current '+dataSelected);
+							tick( dataItem.current, currentMax );
+							break;
+						case 'voltage':
+			//				console.log('graph voltage '+dataSelected);
+							tick( dataItem.voltage, voltageMax );
+							break;
+						case 'rpm':
+							// var realRPM = Math.floor(((dataItem.rpm * 3.3)/1024)*1000); //*666.667);
+			//				console.log('graph rpm '+dataSelected);
+							tick( dataItem.rpm, rpmMax );
+							break;
+						default:
+			//				console.log('graph default');
+							tick( dataItem.power, powerMax );
+					}
+				 
+				});
+			});
+		
+				});
+				
+	
+		</script>			
+					
+ 
+ 
+
+  </div>
+ 

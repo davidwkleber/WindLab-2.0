@@ -1,0 +1,134 @@
+body {
+	font-family: Trebuchet, Arial, sans-serif;
+	clear left;
+}
+p {
+	text-align: justify;
+}
+#navImgHome {
+	position:absolute;
+	top: 3px;
+	left: 120px;
+	width: 8%
+}
+#navImgIntro{
+	top: 0px;
+	position:absolute;
+	left: 25%;
+	width:17.5%
+}
+#navImgTime{
+	top: 0px;
+	position:absolute;
+	left: 42.5%;
+	width:17.5%
+}
+#navImgPower{
+	top: 0px;
+	position:absolute;
+	left: 60%;
+	width:17.5%
+}
+/*
+nav {
+	font-size: 0;
+	position: absolute;
+	top: 0px;
+	left: 0px;
+	right: 0px
+}
+*/
+#previous{
+	position: absolute;
+	top: 70px;
+	left: 20px;
+	/*height: 160px*/
+}
+#next{
+	position: absolute;
+	top: 70px;
+	right: 20px;
+}
+.experimentHeading {
+	position: absolute;
+	top: 80px;
+	left: 285px;
+}
+.introTable {
+	position: absolute;
+	top: 50px;
+	left: 165px;
+	width:1590px;
+	border-spacing: 120px;
+	
+}
+td {
+    cursor:pointer;
+	/*border:1px solid black;*/
+    padding:15px;
+	background-color: #1f8fe0;
+	text-align: center;
+}
+.oneDiv{
+	position: absolute;
+	top: 120px;
+	left: 200px;
+	width: 70%;
+}
+
+/* ######## */
+#cutInH{
+	position: relative;
+	top: 45px;
+	text-align: center;
+	background-color: red;
+}
+#counterMomentH{
+	position: relative;
+	text-align: center;
+	top: 45px;
+	background-color: red;
+}
+
+.left2colDiv{
+	position: absolute;
+	top: 55px;
+	left: 250px;
+	width: 650px;
+	display: block;
+}
+.right2colDiv{
+	position: absolute;
+	top: 55px;
+	right: 250px;
+	width: 650px;
+}
+.left3colDiv{
+	position: absolute;
+	top: 55px;
+	left: 200px;
+	width: 500px;
+	display: block;
+}
+.middle3colDiv{
+	position: absolute;
+	top: 55px;
+	left: 750px;
+	width: 500px;
+}
+.right3colDiv{
+	position: absolute;
+	top: 55px;
+	left: 1250px;
+	width: 500px;
+}
+
+.backDiv{
+	position: absolute;
+	top: 55px;
+	left: 244px;
+	width: 500px;
+	height: 120px;
+	background-color: gray;
+}
+

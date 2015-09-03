@@ -1,0 +1,191 @@
+<!doctype html>
+
+
+<link rel="stylesheet" href="../stylesheets/style.css">
+
+<script type="text/javascript" src="/javascripts/JSON2CSV.js"></script>
+<script type="text/javascript" src="/javascripts/JSON2TSV.js"></script>
+
+
+  	<div class="saveDataButtonDiv">
+		<button class="saveDataButton" id="saveDataButton" name="saveDataButton" onclick="saveDataFunction()">Save</button>
+	</div>
+	<div class="recordButtonsDiv" name="recordButtonsDiv" id="recordButtonsDiv" >
+	</div>
+
+		<div class="recordButtons"  id="recordButtons" name="recordButtons">
+    <input type="checkbox" name="recordButtons-checkbox" class="recordButtons-checkbox" id="myrecordButtons" checked>
+    <label class="recordButtons-label" for="myrecordButtons">
+        <span class="recordButtons-inner"></span>
+        <span class="recordButtons-switch"></span>
+    </label>
+</div>
+
+
+<script>
+/*
+<-- 
+<div class="recordButtons"  id="recordButtons">
+			<fieldset id="recordButtonsSet">
+				<legend>Record and Save Data</legend>
+				<span>
+					<button class="recordButton" id="recordButton" name="recordButton" onclick="recordFunction()">Record</button> 
+				</span>
+				<span>
+				<button class="stopRecordButton" id="stopRecordButton" name="stopRecordButton" onclick="stopRecordFunction()">Stop</button> 
+				</span>
+				<span>
+				<button class="saveDataButton" id="saveDataButton" name="saveDataButton" onclick="saveDataFunction()">Save</button> 
+				</span>
+			<div id="saveDataDiv">
+			<p id="saveDataLinkPlace"></p>
+			</div>
+	</fieldset>
+	</div>
+	--> 
+	*/ </script>
+		<script>
+/* 
+	// This was a version that would use the server side for holding data
+	// sending post requests to the API 
+	
+		function recordFunction() {
+					event.preventDefault();
+					console.log('client recordData started : ');
+					var posting = $.post( '/recordData', { } );
+					posting.done(function( data ) {
+						console.log('client recordData post done ');
+					});
+                };
+						
+		function stopRecordFunction() {
+					event.preventDefault();
+					console.log('client stopoRecording started : ');
+					var posting = $.post( '/stopRecording', {  } );
+					posting.done(function( data ) {
+						console.log('client stopRecording post done ');
+					});
+                };
+				
+		function saveDataFunction() {					
+					event.preventDefault();
+					console.log('client saveData started : ');
+					var posting = $.post( '/saveData', {  } );
+					posting.done(function( data ) {
+						console.log('client saveData post done ');
+					});
+                };
+*/
+
+		var recordDataItem;
+		var recordedData;
+		var recordsocket;
+		var recordDataFlag = false;
+			recordedData = [];
+		var recordSelection = "off";
+			
+			var recordsocket = io.connect('http://127.0.0.1:1337');
+
+			recordsocket.on('connect', function (data) {
+				//	console.log('record client connected ');
+				//	console.log('record connected data ' + data);
+			
+				jQuery(function ($) {
+					recordsocket.on('updateData', function (data) {
+						// console.log('record update raw: ' + data);
+						if( recordDataFlag) {
+							recordDataItem = JSON.parse(data);
+						// 	console.log('record updateData.power  ' + recordDataItem.power);
+							recordedData.push(data);
+						}
+					});	
+			
+				});
+			});	
+		function recordFunction() {
+	//		console.log('start recording');
+			$('#recordButton').css('background-color','#f47121');
+			recordDataFlag = true;
+		}
+		function stopRecordFunction() {
+		//	console.log('stop recording');
+			recordDataFlag = false;
+					console.log('record button in stopRecordFunction  is: '+$(".recordButtons-checkbox:checked").val());
+
+			 $(".recordButtons-checkbox").prop("checked", "on")
+
+			$('#recordButton').css('background-color','#e8e8e8');
+			// recordsocket.disconnect();
+		}
+		
+		function saveDataFunction() {
+					console.log('record button in saveDataFunction is: '+$(".recordButtons-checkbox:checked").val());
+
+			if ( recordDataFlag === true ) {
+					stopRecordFunction()
+			}
+	//		console.log('save data');
+	//		console.log('recorded data saved: '+recordedData);
+			
+		//	recordDataFlag = false;
+
+			// $('#recordButton').css('background-color','#e8e8e8');
+						
+			// var json = JSON.stringify(recordedData);
+			var json = recordedData;
+		//	var blob = new Blob([json], {type: "application/json"});
+			
+			var tsv = JSON2TSV("["+json+"]");
+			var blob = new Blob([tsv], {type: "application/csv"});
+	
+			var url = URL.createObjectURL(blob);
+			
+			var a = document.createElement('a');
+			a.id = "saveDataLinkPlace";
+			var date = new Date();
+			var fileName = "data."+date.getDate()+"-"+(date.getMonth()+1)+"-"+date.getFullYear()+" "+date.getHours()+"."+date.getMinutes()+".tsv";
+			a.download = fileName;
+			a.href = url;
+			a.textContent = "Download data as JSON";
+			
+			saveAs(blob,fileName);
+	/*
+			
+			var parent = document.getElementById("saveDataDiv");
+			var linkPlace = document.getElementById("saveDataLinkPlace");
+			var linkStuff = document.createElement("p");
+			linkStuff.appendChild(a);
+			linkStuff.id = "saveDataLinkPlace";
+			parent.replaceChild(linkStuff,linkPlace);
+			
+			*/
+			recordedData = []
+
+		}
+		
+				$( ".recordButtons-checkbox" ).on( "click", function() {
+
+		//	console.log("INIT on click");
+				recordSelection = $(".recordButtons-checkbox:checked").val();
+			//	console.log("init on? "+PAinitSelection);
+				if (recordSelection != "on") {
+					console.log("Record ON");
+					recordFunction()
+		
+				} else {
+					console.log("Record OFF");
+		//						 console.log('record button is: '+$(".recordButtons-checkbox:checked").val());
+
+					if ( recordDataFlag === true ) {
+						stopRecordFunction()
+						// saveDataFunction()
+					}
+				}
+		 });
+
+		</script>			
+					
+ 
+ 
+ 
+  </div>

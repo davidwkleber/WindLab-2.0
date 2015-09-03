@@ -1,0 +1,288 @@
+
+<!doctype html>
+
+
+<div class="WSbuttonDiv">
+
+<span class="WSbuttons">
+<div>
+	<input type="image" src="/images/up.png" class="WSupButton" id="WSupButton" name="WSupButton" ></button>
+	</div><div>
+	<input type="image" src="/images/down.png"  class="WSdownButton" id="WSdownButton" ></button>
+	</div>
+
+  </span>
+</div>
+
+<div class="WSinitButton" name="WSinitButton" id="WSinitButton" >
+	<form>
+    <input type="checkbox" name="WSinitButton-checkbox" class="WSinitButton-checkbox" id="myWSinitButton" checked>
+    <label class="WSinitButton-label" for="myWSinitButton">
+        <span class="WSinitButton-inner"></span>
+        <span class="WSinitButton-switch"></span>
+    </label>
+</form>
+</div>
+ 
+	<div class="windSpeedDiv">
+
+ <form name="windSpeedForm" id"windSpeedForm" class="windSpeedForm" action="/windSpeed" method="post">
+
+         <a class="awesome-button"></a>
+        <p class="WScurrentValue" id="WScurrentValue" ><span>0 m/s</span></p>
+
+        <script>
+			
+		var hasTouch = (typeof TouchEvent !== "undefined");
+var mouseIsDown = "false";
+var WSframeToPlay = 6;
+var WScurrentValue = 0;
+var WSnumFrames = 160;
+var WSsaveValue = 0;
+var WS_fanOn = "true";
+
+windSpeedValue = 0;
+
+		//setup a variable to store our last position
+var last_position = {},
+$output       = $('#output');
+
+            //Instantiate and get the instance from the element's data-spriteClip property
+            var WSinstance = $(".awesome-button").spriteClip({
+                totalFrames: WSnumFrames,
+                frameRate: 60,
+                stops: [6, WSnumFrames]
+            }).data("spriteClip");
+WSinstance.currentFrame = WSframeToPlay;
+
+            if (hasTouch) {
+				WSinstance.$el.on("touchstart", function () {
+
+	//				console.log('mouse down');
+					mouseIsDown = "true";
+					last_position = {
+						x : event.touches[0].clientX,
+						y : event.touches[0].clientY
+											
+					}
+				})
+				}
+				
+				if( hasTouch ) {
+				// $(".awesome-button").on('touchmove', function (event) {
+				WSinstance.$el.on('touchmove', function (TouchEvent) {
+				
+		
+				if ( mouseIsDown === "true" ) {
+		//								console.log('mouseIsDown == true in touchmove');
+
+					//check to make sure there is data to compare against
+					if (typeof(last_position.x) != 'undefined' ) {
+					//get the change from last position to this position
+
+					var deltaX = last_position.x - event.touches[0].clientX,
+						deltaY = last_position.y - event.touches[0].clientY;
+
+				var initialWSfameToPlay = WSframeToPlay;
+				WSframeToPlay = Math.floor(+WSframeToPlay + +deltaY/2);
+
+				if 	(+WSframeToPlay >= +WSnumFrames) WSframeToPlay = +WSnumFrames;
+				if 	(+WSframeToPlay <= +6) WSframeToPlay = +6;
+				
+				// WSinstance.stop();
+				WSinstance.gotoAndStop(WSframeToPlay);	
+				// WSinstance.stop();
+				// if (deltaY > 0) WSinstance.play(WSframeToPlay, 1);
+				// else if (deltaY < 0) WSinstance.rewindtoAndStop(WSframeToPlay, 1);
+			
+
+				}
+			} else {
+	//				console.log('mouseIsDown != true ');
+					WSinstance.stop();
+				}
+							//set the new last position to the current for next time
+					last_position = {
+						x : event.touches[0].clientX,
+						y : event.touches[0].clientY
+					}
+            
+			})
+			}
+			if( hasTouch ) {
+                WSinstance.$el.on("touchend", function () {
+				
+				  $(".WSinitButton-checkbox").prop("checked", "on")
+					mouseIsDown = "false";
+		//									console.log('mouseIsDown = false ');
+
+                //    WSinstance.stop();
+					event.preventDefault();
+					WScurrentValue = (WSinstance.currentFrame/WSnumFrames)*100;
+
+		//			console.log('client windSpeed: '+WSinstance.currentFrame);
+		
+					windSpeedValue = WScurrentValue;
+					
+					var posting = $.post( '/windSpeed', { windSpeedValue: WScurrentValue } );
+					
+					var valueText = reutrnWindSpeed(WScurrentValue);	
+					valueText =  +(Math.round(valueText +"e+1")+"e-1");
+					
+				
+					$(".WScurrentValue span").text(valueText+" m/s");
+					posting.done(function( data ) {
+						console.log('client post done ');
+					})
+                });
+				} else {
+			    WSinstance.$el.on("mouseup", function () {
+					WSmouseIsDown = "false";
+                    WSinstance.stop();
+					event.preventDefault();
+					
+	//				console.log('client pitchAngle: '+PAinstance.currentFrame);
+	
+						windSpeedValue = WScurrentValue;
+
+					var posting = $.post( '/windSpeed', { windSpeedValue: WScurrentValue } );
+					posting.done(function( data ) {
+	//					console.log('client windSpeed post done ');
+					});
+                });
+				}
+            WSinstance.$dispatcher.on(SpriteClip.Event.ENTER_FRAME, function (e, clip) {
+
+					WScurrentValue = (WSinstance.currentFrame/WSnumFrames)*100;
+
+					var valueText = reutrnWindSpeed(WScurrentValue);
+					
+					valueText =  +(Math.round(valueText +"e+1")+"e-1");
+					
+					$(".WScurrentValue span").text(valueText+" m/s");
+
+                    $(".WScurrentFrame span").text(WSinstance.currentFrame);
+                });
+				
+				
+				
+				$('#WSupButton').click(function(TouchEvent){
+					if( WS_fanOn == "true" ) {
+								  $(".WSinitButton-checkbox").prop("checked", "on")
+
+				  	
+
+					if 	(+WSinstance.currentFrame < +WSnumFrames) {
+
+		//								console.log('client wind speed BUTTON: '+WSinstance.currentFrame);
+					WSinstance.nextFrame();
+
+					// WSinstance.currentFrame += 1;
+		//			console.log('client windSpeed BUTTON: '+WSinstance.currentFrame);
+										
+					WScurrentValue = (WSinstance.currentFrame/WSnumFrames)*100;
+					
+					event.preventDefault();
+										windSpeedValue = WScurrentValue;
+
+					var posting = $.post( '/windSpeed', { windSpeedValue: WScurrentValue } );
+										
+					var valueText = reutrnWindSpeed(WScurrentValue);	
+
+					$(".WScurrentValue span").text(valueText+" m/s");
+                    $(".WScurrentFrame span").text(WSinstance.currentFrame);
+					posting.done(function( data ) {
+		//				console.log('client windSpeed post done ');
+					});
+					};
+					}
+				});
+			$('#WSdownButton').click(function(TouchEvent){
+				if( WS_fanOn == "true" ) {
+							  $(".WSinitButton-checkbox").prop("checked", "on")
+
+			  	
+
+				if 	(WSinstance.currentFrame > 6) {
+
+					WSinstance.prevFrame();
+
+					WScurrentValue = (WSinstance.currentFrame/WSnumFrames)*100;
+
+			//		console.log('client windSpeed BUTTON: '+WSinstance.currentFrame);
+			event.preventDefault();
+								windSpeedValue = WScurrentValue;
+
+					var posting = $.post( '/windSpeed', { windSpeedValue: WScurrentValue } );
+										
+					var valueText = reutrnWindSpeed(WScurrentValue);	
+
+					
+					$(".WScurrentValue span").text(valueText+" m/s");
+                    $(".WScurrentFrame span").text(WSinstance.currentFrame);
+					posting.done(function( data ) {
+		//				console.log('client windSpeed post done ');
+					});
+				};
+				}
+			});	
+
+		$( ".WSinitButton-checkbox" ).on( "click", function() {
+
+	//		console.log("INIT on click");
+				WSinitSelection = $(".WSinitButton-checkbox:checked").val();
+			//	console.log("init on? "+WSinitSelection);
+				if (WSinitSelection == "on") {
+					WS_fanOn = "true";
+				WScurrentValue = WSsaveValue;
+				console.log("save "+WScurrentValue);
+				WSinstance.currentFrame = (WScurrentValue/100)*WSnumFrames;
+					windSpeedValue = WScurrentValue;
+
+					var posting = $.post( '/windSpeed', { windSpeedValue: WScurrentValue } );
+					
+					var WSvalueText = reutrnWindSpeed(WScurrentValue);	
+					
+					WSinstance.gotoAndStop(WSinstance.currentFrame);							
+					$(".WScurrentValue span").text(WSvalueText+"m/s");
+                    $(".WScurrentFrame span").text(WSinstance.currentFrame);
+				} else {
+					WS_fanOn = "false";
+	//				console.log("INIT ON");
+				WSsaveValue = WScurrentValue;
+	console.log("save "+WScurrentValue);
+						windSpeedValue = WScurrentValue;
+
+					var posting = $.post( '/windSpeed', { windSpeedValue: 0 } );
+					
+					WSinstance.currentFrame = 1;
+					WSinstance.gotoAndStop(1);							
+					$(".WScurrentValue span").text("0 m/s");
+                    $(".WScurrentFrame span").text(WSinstance.currentFrame);
+				}
+		 });			
+				
+function fixPageXY(e) {
+  if (e.pageX == null && e.clientX != null ) {
+    var html = document.documentElement
+    var body = document.body
+ 
+    e.pageX = e.clientX + (html.scrollLeft || body && body.scrollLeft || 0)
+    e.pageX -= html.clientLeft || 0
+    e.pageY = e.clientY + (html.scrollTop || body && body.scrollTop || 0)
+    e.pageY -= html.clientTop || 0
+  }
+}
+
+function reutrnWindSpeed( windSpeedValueIn ) {
+		var windSpeedValueText = (windSpeedValueIn*0.1456)-0.5523;
+		windSpeedValueText =  +(Math.round(windSpeedValueText +"e+1")+"e-1");
+		if ( windSpeedValueText < 0 ) {
+			windSpeedValueText = 0;
+		}		
+		return windSpeedValueText;
+}		
+        </script>
+ </form>
+	</div>
+ 
