@@ -5,25 +5,25 @@ body {
 p {
 	text-align: justify;
 }
-#navImgHome {
+#logoFrame {
 	position:absolute;
 	top: 3px;
 	left: 120px;
 	width: 8%
 }
-#navImgIntro{
+#topFrame{
 	top: 0px;
 	position:absolute;
 	left: 25%;
 	width:17.5%
 }
-#navImgTime{
+#timeDomainGraph{
 	top: 0px;
 	position:absolute;
 	left: 42.5%;
 	width:17.5%
 }
-#navImgPower{
+#powerCurveGraph{
 	top: 0px;
 	position:absolute;
 	left: 60%;

@@ -24,11 +24,13 @@
 			// console.log('SEND update data : '+sendData);
 			
 			//start with the date
-			var sendJSON = '{\n  \"date\": \"'+formatNow+'\",';
+			 var sendJSON = '{\n  \"date\": \"'+formatNow+'\",';
+				
 			// put in the JSON from the serial input next
 			sendJSON += sendData.substring(1, sendData.length-3);
 			// now add the info local to the interface, wind speed, pitch angle and dummy load
-			sendJSON += ",\n  \"windSpeed\": "+windSpeedValueText+",\n";
+			 sendJSON += ", \n  \"windSpeed\": "+windSpeedValueText+",\n";
+
 			sendJSON += "  \"pitchAngle\": "+pitchAngleValueText+",\n";
 			sendJSON += "  \"dummyLoad\": "+dummyLoadValueText+"\n";
 			sendJSON += "}";
@@ -54,6 +56,7 @@
 			// console.log("in SerialListener: the pitch angle: "+pitchAngleValue);
 			// console.log("in SerialListener: the dummy load: "+dummyLoadValue);
 
+			console.log("data is: "+JSON.stringify(dataItem));
 			return JSON.stringify(dataItem);
 		};
 		

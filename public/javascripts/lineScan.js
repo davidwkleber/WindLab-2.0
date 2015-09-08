@@ -43,6 +43,16 @@ svg.append("g")
     .attr("class", "y axis")
     .call(d3.svg.axis().scale(y).orient("left"));
  
+ // Add the text label for the Y axis
+    svg.append("text")
+        .attr("transform", "rotate(-90)")
+        .attr("y", -50)
+        .attr("x", margin.top - (height / 2))
+        .attr("dy", ".71em")
+		.style("font-size", "16px")
+        .style("text-anchor", "end")
+        .text("RPM");
+
 var path = svg.append("g")
     .attr("clip-path", "url(#clip)")
   .append("path")
@@ -53,7 +63,18 @@ var path = svg.append("g")
 function changeAxis( axisMax ) {
    y.domain([0, axisMax]);
 }
- 
+
+function changeYAxisLabel( yLabel ) {
+	 // Add the text label for the Y axis
+    svg.append("text")
+        .attr("transform", "rotate(-90)")
+        .attr("y", -50)
+        .attr("x", margin.top - (height / 2))
+        .attr("dy", ".71em")
+		.style("font-size", "16px")
+        .style("text-anchor", "end")
+        .text(yLabel);
+}
 function tick( value, axisMax ) {
 
  // var y = d3.scale.linear()
